@@ -5,15 +5,14 @@ import subprocess
 import sys
 
 # --- CONFIGURACIÓN ---
-# ID del dispositivo (Cable USB) - NO CAMBIAR SI ES EL MISMO CEL
-ADB_ID = "426fbf59" 
+ADB_ID = "426fbf59"  # Tu cable USB
 
 # Archivos
 ARCHIVO_AUDIO_LOCAL = "mensaje.mp3"
 ARCHIVO_AUDIO_CEL   = "/sdcard/mensaje.mp3"
 ARCHIVO_CSV         = "numeros.csv"
 
-# COORDENADAS BOTÓN ALTAVOZ (Verifica con scrcpy)
+# COORDENADAS ALTAVOZ (Verifica en scrcpy)
 BTN_ALTAVOZ_X = 850 
 BTN_ALTAVOZ_Y = 1620 
 
@@ -21,71 +20,69 @@ BTN_ALTAVOZ_Y = 1620
 DURACION_AUDIO = 20
 
 def adb_cmd(comando):
-    """Ejecuta comando shell directo (sin retorno)"""
-    full_cmd = f"adb -s {ADB_ID} shell {comando}"
-    os.system(full_cmd)
+    """Ejecuta comando ADB simple"""
+    os.system(f"adb -s {ADB_ID} shell {comando}")
 
 def preparar_sistema():
-    """Sube el audio y arregla permisos"""
-    print("📂 Preparando archivos en el celular...")
-    # 1. Subir archivo
+    """Sube audio, da permisos y sube volumen"""
+    print("📂 Preparando sistema...")
     os.system(f"adb -s {ADB_ID} push {ARCHIVO_AUDIO_LOCAL} {ARCHIVO_AUDIO_CEL}")
-    # 2. DAR PERMISOS (Crucial para que suene)
-    # A veces el reproductor no puede leer archivos pushed por root/adb
-    adb_cmd(f"chmod 777 {ARCHIVO_AUDIO_CEL}")
-
-def subir_volumen_media():
-    """Sube el volumen multimedia al máximo"""
-    print("   🔊 Forzando volumen multimedia...")
-    for _ in range(15):
-        adb_cmd("input keyevent 24") # VOLUME_UP
-
-def esperar_evento_logcat_linux(timeout=60):
-    """
-    Versión portada y corregida de tu script de Windows.
-    Lee el flujo de Logcat en tiempo real.
-    """
-    print(f"   ⏳ Esperando contestación (Máx {timeout}s)...")
+    adb_cmd(f"chmod 777 {ARCHIVO_AUDIO_CEL}") # Permisos totales para que cualquier app lo lea
     
-    # 1. Limpiar buffer antiguo
+    # Pre-cargar volumen por si acaso
+    for _ in range(5):
+        adb_cmd("input keyevent 24") 
+
+def esperar_contestacion_logcat_radio(timeout=60):
+    """
+    Estrategia 'Caramelo' (Logcat) adaptada a Linux.
+    Usamos '-b radio' para filtrar solo eventos de telefonía.
+    Busca el cambio exacto de estado a 'CALL_STATE_OFFHOOK' o 'ACTIVE'.
+    """
+    print(f"   ⏳ Esperando contestación (Logcat Radio)...")
+    
+    # 1. Limpiamos buffer antiguo
     os.system(f"adb -s {ADB_ID} logcat -c")
 
-    # 2. Iniciar lectura (Sin shell=True para mejor control en Linux)
-    cmd = ["adb", "-s", ADB_ID, "logcat", "-v", "time"]
+    # 2. Leemos SOLO el buffer de radio (telephony) que es más limpio
+    cmd = ["adb", "-s", ADB_ID, "logcat", "-b", "radio", "-v", "time"]
     
-    # Usamos subprocess.PIPE para leer línea por línea
+    # stdout=subprocess.PIPE es necesario para leer en tiempo real
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
     start_time = time.time()
     conectado = False
 
     while (time.time() - start_time) < timeout:
-        # Leer línea (bloqueante pero rápido)
+        # Leemos línea por línea (bloqueante, igual que en tu script de Windows)
         line = process.stdout.readline()
         if not line: continue
         
         try:
-            line_str = line.decode('utf-8', errors='ignore').strip()
+            # 'replace' evita crash por caracteres extraños en el log
+            line_str = line.decode('utf-8', errors='replace').strip()
         except:
             continue
 
-        # --- LÓGICA DE DETECCIÓN ---
-        # "CallState: 2" = OFFHOOK (Contestaron)
-        # "CallState: 0" = IDLE (Colgaron)
-        # "EXTRA_STATE_OFFHOOK" = Otra variante común
+        # --- PALABRAS CLAVE MAESTRAS (XIAOMI / ANDROID PURO) ---
         
-        if "CallState: 2" in line_str or "EXTRA_STATE_OFFHOOK" in line_str:
-            print(f"   🟢 CONEXIÓN DETECTADA: {line_str[-20:]}")
+        # 1. "CallState: 2" -> Código universal de Android para OFFHOOK (Contestada)
+        # 2. "GET_CURRENT_CALLS" con estado ACTIVE -> Muy común en Xiaomi
+        # 3. "setTo active" -> Transición directa
+        
+        if "CallState: 2" in line_str or "GET_CURRENT_CALLS" in line_str and "ACTIVE" in line_str:
+            print(f"   🟢 ¡CONEXIÓN DETECTADA!: {line_str[-50:]}") # Muestra qué detectó
             conectado = True
             break
         
-        # Si detectamos que colgaron (IDLE) pero IGNORAMOS los primeros 3 segundos
-        # (porque al marcar a veces pasa brevemente por idle)
-        if ("CallState: 0" in line_str or "EXTRA_STATE_IDLE" in line_str) and (time.time() - start_time) > 4:
-            print("   ❌ Llamada terminada (IDLE detectado).")
-            break
+        # Detección de Colgado (IDLE / DISCONNECTED)
+        # Ignoramos los primeros 4 segundos para evitar falsos positivos al iniciar la llamada
+        if (time.time() - start_time) > 4:
+            if "CallState: 0" in line_str or "DISCONNECTED" in line_str:
+                print("   ❌ Llamada finalizada (IDLE detectado).")
+                break
 
-    # Matar el proceso de logcat para no dejar basura
+    # Importante: Matar el proceso logcat para no dejar zombies en Linux
     process.terminate()
     return conectado
 
@@ -94,19 +91,19 @@ def realizar_llamada(numero):
     print(f"📞 Procesando: {numero}")
     
     # 1. Despertar
-    adb_cmd("input keyevent 26") # Power
-    adb_cmd("input keyevent 82") # Unlock
+    adb_cmd("input keyevent 26")
+    adb_cmd("input keyevent 82")
     time.sleep(1)
 
     # 2. Marcar
     print("   -> Marcando...")
     adb_cmd(f"am start -a android.intent.action.CALL -d tel:{numero}")
     
-    # 3. Esperar a que contesten (Lógica Logcat Restaurada)
-    se_conecto = esperar_evento_logcat_linux()
+    # 3. ESPERAR A QUE CONTESTEN (Logcat)
+    se_conecto = esperar_contestacion_logcat_radio()
 
     if se_conecto:
-        # Pausa crítica para que el audio del sistema cambie de "Tono" a "Voz"
+        # Pausa vital: Esperar que el audio cambie de "tono de llamada" a "voz"
         time.sleep(1.5)
 
         # 4. Activar Altavoz
@@ -114,24 +111,23 @@ def realizar_llamada(numero):
         adb_cmd(f"input tap {BTN_ALTAVOZ_X} {BTN_ALTAVOZ_Y}")
         time.sleep(0.5)
 
-        # 5. REPRODUCIR AUDIO (Estrategia Reforzada)
+        # 5. REPRODUCIR AUDIO (Doble check)
         print("   -> ▶️ Reproduciendo mensaje...")
         
-        # A) Subir volumen primero
-        subir_volumen_media()
+        # A) Asegurar volumen al máximo OTRA VEZ
+        adb_cmd("input keyevent 24")
+        adb_cmd("input keyevent 24")
         
-        # B) Lanzar Intent de Audio (Nativo)
-        # El flag -t audio/mp3 ayuda a que Android sepa qué app abrir
+        # B) Lanzar reproductor
         adb_cmd(f"am start -a android.intent.action.VIEW -d file://{ARCHIVO_AUDIO_CEL} -t audio/mp3")
-
-        # C) Alternativa de "Play" por si se pausa al abrir (simular tecla PLAY)
-        time.sleep(1) 
+        
+        # C) Presionar "Play" virtualmente por si arranca en pausa
+        time.sleep(1)
         adb_cmd("input keyevent 126") # KEYCODE_MEDIA_PLAY
 
         # 6. Esperar duración
         print(f"   -> Esperando {DURACION_AUDIO} segundos...")
         time.sleep(DURACION_AUDIO)
-
         print("   -> ✅ Mensaje entregado.")
     else:
         print("   -> ⚠️ No contestaron.")
@@ -144,33 +140,30 @@ def realizar_llamada(numero):
 # --- BLOQUE PRINCIPAL ---
 if __name__ == "__main__":
     if not os.path.exists(ARCHIVO_AUDIO_LOCAL):
-        print(f"❌ Error: No existe {ARCHIVO_AUDIO_LOCAL}")
+        print(f"❌ Falta {ARCHIVO_AUDIO_LOCAL}")
         sys.exit()
     
     if not os.path.exists(ARCHIVO_CSV):
-        print(f"❌ Error: No existe {ARCHIVO_CSV}")
+        print(f"❌ Falta {ARCHIVO_CSV}")
         sys.exit()
 
     preparar_sistema()
 
-    numeros_a_llamar = []
+    numeros = []
     try:
         with open(ARCHIVO_CSV, newline='', encoding='utf-8') as f:
             reader = csv.reader(f)
             for row in reader:
-                if row:
-                    telf = row[0].strip()
-                    if telf.isdigit(): numeros_a_llamar.append(telf)
+                if row and row[0].strip().isdigit():
+                    numeros.append(row[0].strip())
     except Exception as e:
-        print(f"❌ Error CSV: {e}")
+        print(f"❌ Error leyendo CSV: {e}")
         sys.exit()
 
-    print(f"✅ Lista cargada: {len(numeros_a_llamar)} números.")
-    print("🚀 Iniciando campaña...")
+    print(f"✅ Lista cargada: {len(numeros)} números.")
+    print("🚀 Iniciando campaña (Modo Logcat Radio)...")
 
-    for telefono in numeros_a_llamar:
-        realizar_llamada(telefono)
+    for tel in numeros:
+        realizar_llamada(tel)
         print("⏳ Enfriamiento (5s)...")
         time.sleep(5)
-
-    print("\n🏁 Fin.")
