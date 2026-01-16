@@ -1,0 +1,299 @@
+CallsManager: 
+  mCalls: 
+  mCallAudioManager:
+    All calls:
+    Active dialing, or connecting calls:
+    Ringing calls:
+    Holding calls:
+    Foreground call:
+    null
+    CallAudioModeStateMachine:
+      History:
+      2026-01-14T12:01:40.326874 - Enter UNFOCUSED
+      2026-01-14T12:27:58.568050 - Enter SIM_CALL
+      2026-01-14T12:27:58.646705 - Mode MODE_IN_CALL
+      2026-01-14T12:28:22.068435 - Enter UNFOCUSED
+      2026-01-14T12:28:22.068692 - Mode MODE_NORMAL
+      2026-01-14T12:31:25.625996 - Enter SIM_CALL
+      2026-01-14T12:31:25.631914 - Mode MODE_IN_CALL
+      2026-01-14T12:33:52.373842 - Enter UNFOCUSED
+      2026-01-14T12:33:52.374288 - Mode MODE_NORMAL
+      2026-01-14T12:33:58.182680 - Enter SIM_CALL
+      2026-01-14T12:33:58.194609 - Mode MODE_IN_CALL
+      2026-01-14T12:34:28.900752 - Enter UNFOCUSED
+      2026-01-14T12:34:28.901354 - Mode MODE_NORMAL
+      2026-01-14T12:34:37.867430 - Enter SIM_CALL
+      2026-01-14T12:34:37.871754 - Mode MODE_IN_CALL
+      2026-01-14T12:35:08.475533 - Enter UNFOCUSED
+      2026-01-14T12:35:08.475919 - Mode MODE_NORMAL
+      Pending Msg:
+      Looper (CallAudioModeStateMachine, tid 379) {8412a70}
+        (Total messages: 0, polling=true, quitting=false)
+        Dump time: 2026-01-14 12:36:34.754 CST
+        Package: system_server
+        Current looper: Looper (CallAudioModeStateMachine, tid=3261)
+        History of long time messages on Looper (CallAudioModeStateMachine, tid=3261):
+      
+    CallAudioRouteStateMachine:
+      Current state: QuiescentEarpieceRoute
+      Pending messages:
+        Looper (com.android.server.telecom.CallAudioRouteStateMachine, tid 375) {a6ae434}
+          (Total messages: 0, polling=true, quitting=false)
+          Dump time: 2026-01-14 12:36:34.755 CST
+          Package: system_server
+          Current looper: Looper (com.android.server.telecom.CallAudioRouteStateMachine, tid=3257)
+          History of long time messages on Looper (com.android.server.telecom.CallAudioRouteStateMachine, tid=3257):
+            Msg #1: seq=25 plan=12:35:08.475 late=34ms wall=456ms h=com.android.internal.util.StateMachine$SmHandler w=4001
+            Msg #2: seq=22 plan=12:34:37.871 late=6ms wall=441ms h=com.android.internal.util.StateMachine$SmHandler w=4001
+            Msg #3: seq=20 plan=12:34:28.900 late=36ms wall=338ms h=com.android.internal.util.StateMachine$SmHandler w=4001
+            Msg #4: seq=13 plan=12:33:58.194 late=0ms wall=592ms h=com.android.internal.util.StateMachine$SmHandler w=4001
+            Msg #5: seq=11 plan=12:33:52.374 late=54ms wall=400ms h=com.android.internal.util.StateMachine$SmHandler w=4001
+            Msg #6: seq=8 plan=12:31:25.632 late=7ms wall=570ms h=com.android.internal.util.StateMachine$SmHandler w=4001
+            Msg #7: seq=6 plan=12:28:22.068 late=17ms wall=475ms h=com.android.internal.util.StateMachine$SmHandler w=4001
+            Msg #8: seq=3 plan=12:27:58.646 late=0ms wall=515ms h=com.android.internal.util.StateMachine$SmHandler w=4001
+        
+    BluetoothDeviceManager:
+      2026-01-14T12:01:41.635351 - Got BluetoothHearingAid: android.bluetooth.BluetoothHearingAid@1c51c1f
+      2026-01-14T12:01:41.768767 - Got BluetoothHeadset: android.bluetooth.BluetoothHeadset@2313f65
+  mTtyManager:
+    mCurrentTtyMode: 0
+  mInCallController:
+    mInCallServices (InCalls registered):
+    ServiceConnections (InCalls bound):
+    CarModeTracker:
+      Current car mode apps:
+      Car mode history:
+  mCallDiagnosticServiceController:
+    activeCallDiagnosticService: 
+    isConnected: false
+  mDefaultDialerCache:
+    User 0: com.google.android.dialer
+  mConnectionServiceRepository:
+    mServiceCache:
+  mRoleManager:
+    DefaultCallRedirectionApp: 
+    DefaultCallScreeningApp: 
+    DefaultCallCompanionApps: (override ) 
+PhoneAccountRegistrar: 
+  xmlVersion: 9
+  defaultOutgoing: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0}
+  outgoingPhoneAccountForTelScheme: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0}
+  simCallManager: null
+  phoneAccounts:
+    [[X] PhoneAccount: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 2, UserHandle{0} Capabilities: CallProvider MultiUser PlaceEmerg SimSub  Audio Routes: BESW Schemes: tel voicemail  Extras: Bundle[{android.telecom.extra.SUPPORTS_VIDEO_CALLING_FALLBACK=true, android.telecom.extra.SORT_ORDER=0}] GroupId: ***]
+    [[X] PhoneAccount: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0} Capabilities: SuppVideo Video CallProvider MultiUser PlaceEmerg SimSub  Audio Routes: BESW Schemes: tel voicemail  Extras: Bundle[{android.telecom.extra.SUPPORTS_VIDEO_CALLING_FALLBACK=true, android.telecom.extra.SORT_ORDER=1}] GroupId: ***]
+    [[X] PhoneAccount: ComponentInfo{com.google.android.gm/android.support.v4.telecom.internal.JetpackConnectionService}, ***, UserHandle{0} Capabilities: SelfManaged SuppVideo Video  Audio Routes: BESW Schemes: tel  Extras: Bundle[{isCoreTelecomAccount=true}] GroupId: ***]
+    [[X] PhoneAccount: ComponentInfo{com.google.android.gm/androidx.core.telecom.internal.JetpackConnectionService}, ***, UserHandle{0} Capabilities: SelfManaged SuppVideo Video  Audio Routes: BESW Schemes: tel  Extras: Bundle[{isCoreTelecomAccount=true}] GroupId: ***]
+    test emergency PhoneAccount filter: null
+Analytics:
+  Call TC@1: {
+      startTime: 0
+      endTime: 1768415302024
+      direction: OUTGOING
+      isAdditionalCall: false
+      isInterrupted: false
+      isEmergency: false
+      callTechnologies: [IMS ]
+      callTerminationReason: DisconnectCause [ Code: (LOCAL) Label: () Description: () Reason: (LOCAL) Tone: (27)  TelephonyCause: 3/-1 ImsReasonInfo: ImsReasonInfo :: {501 : CODE_USER_TERMINATED, 0, }]
+      missedReason: null
+      connectionService: com.android.phone/com.android.services.telephony.TelephonyConnectionService
+      isVideoCall: false
+      inCallServices: [
+      name: com.google.android.dialer/com.android.incallui.InCallServiceImpl type: 2 is crashed: false service last time in ms: 25593
+      name: com.android.bluetooth/.telephony.BluetoothInCallService type: 4 is crashed: false service last time in ms: 25580
+      name: com.google.android.gms/.bankscamwarning.services.BankScamCallDetectionService type: 4 is crashed: false service last time in ms: 25579
+      name: com.qualcomm.qtil.btdsda/.BtDsDaService type: 4 is crashed: false service last time in ms: 25579
+  ]
+      callProperties: []
+      callSource: UNSPECIFIED
+  }
+  
+  Call TC@2: {
+      startTime: 1768415506706
+      endTime: 1768415632351
+      direction: OUTGOING
+      isAdditionalCall: false
+      isInterrupted: false
+      isEmergency: false
+      callTechnologies: [IMS ]
+      callTerminationReason: DisconnectCause [ Code: (REMOTE) Label: () Description: () Reason: (NORMAL) Tone: (27)  TelephonyCause: 2/-1 ImsReasonInfo: ImsReasonInfo :: {510 : CODE_USER_TERMINATED_BY_REMOTE, 16, Q.850;cause=16}]
+      missedReason: null
+      connectionService: com.android.phone/com.android.services.telephony.TelephonyConnectionService
+      isVideoCall: false
+      inCallServices: [
+      name: com.google.android.dialer/com.android.incallui.InCallServiceImpl type: 2 is crashed: false service last time in ms: 148887
+      name: com.android.bluetooth/.telephony.BluetoothInCallService type: 4 is crashed: false service last time in ms: 148924
+      name: com.google.android.gms/.bankscamwarning.services.BankScamCallDetectionService type: 4 is crashed: false service last time in ms: 148921
+      name: com.qualcomm.qtil.btdsda/.BtDsDaService type: 4 is crashed: false service last time in ms: 148908
+  ]
+      callProperties: []
+      callSource: UNSPECIFIED
+  }
+  
+  Call TC@3: {
+      startTime: 1768415655884
+      endTime: 1768415668874
+      direction: OUTGOING
+      isAdditionalCall: false
+      isInterrupted: false
+      isEmergency: false
+      callTechnologies: [IMS ]
+      callTerminationReason: DisconnectCause [ Code: (LOCAL) Label: () Description: () Reason: (LOCAL) Tone: (27)  TelephonyCause: 3/-1 ImsReasonInfo: ImsReasonInfo :: {501 : CODE_USER_TERMINATED, 0, }]
+      missedReason: null
+      connectionService: com.android.phone/com.android.services.telephony.TelephonyConnectionService
+      isVideoCall: false
+      inCallServices: [
+      name: com.google.android.dialer/com.android.incallui.InCallServiceImpl type: 2 is crashed: false service last time in ms: 32884
+      name: com.android.bluetooth/.telephony.BluetoothInCallService type: 4 is crashed: false service last time in ms: 32886
+      name: com.google.android.gms/.bankscamwarning.services.BankScamCallDetectionService type: 4 is crashed: false service last time in ms: 32844
+      name: com.qualcomm.qtil.btdsda/.BtDsDaService type: 4 is crashed: false service last time in ms: 32831
+  ]
+      callProperties: []
+      callSource: UNSPECIFIED
+  }
+  
+  Call TC@4: {
+      startTime: 1768415686076
+      endTime: 1768415708442
+      direction: OUTGOING
+      isAdditionalCall: false
+      isInterrupted: false
+      isEmergency: false
+      callTechnologies: [IMS ]
+      callTerminationReason: DisconnectCause [ Code: (LOCAL) Label: () Description: () Reason: (LOCAL) Tone: (27)  TelephonyCause: 3/-1 ImsReasonInfo: ImsReasonInfo :: {501 : CODE_USER_TERMINATED, 0, }]
+      missedReason: null
+      connectionService: com.android.phone/com.android.services.telephony.TelephonyConnectionService
+      isVideoCall: false
+      inCallServices: [
+      name: com.google.android.dialer/com.android.incallui.InCallServiceImpl type: 2 is crashed: false service last time in ms: 32740
+      name: com.android.bluetooth/.telephony.BluetoothInCallService type: 4 is crashed: false service last time in ms: 32750
+      name: com.google.android.gms/.bankscamwarning.services.BankScamCallDetectionService type: 4 is crashed: false service last time in ms: 32727
+      name: com.qualcomm.qtil.btdsda/.BtDsDaService type: 4 is crashed: false service last time in ms: 32701
+  ]
+      callProperties: []
+      callSource: UNSPECIFIED
+  }
+  
+  ICA.dC: 37.00
+  CSW.hCCC: 122.00
+  CSW.sA: 282.67
+  ICA.sAR: 28.33
+  CSW.sDc: 514.00
+  CSW.rC: 2062.25
+  Hardware Version: 
+  Past analytics dumps: 
+Historical Events:
+  CallTC@1 [14 ene 2026 12:27:58 p. m.](MO - outgoing)
+  	>>>Target PhoneAccount: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0} (TELCEL)
+  	>>>Conn mgr: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0}
+  	To address: tel:********** Presentation: Allowed
+    12:27:58.399 - CREATED (null;requestedAcct:none, selfMgd:false):TSI.hCI@AaI
+    12:27:58.483 - CONNECTION_EVENT (org.codeaurora.telecom.event.EVENT_PHONE_ACCOUNT_CHANGED):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.sOCPA@AaI
+    12:27:58.498 - SET_CONNECTING (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0}):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP@AaI
+    12:27:58.654 - AUDIO_ROUTE (Leaving state QuiescentEarpieceRoute):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@AaI
+    12:27:58.655 - AUDIO_ROUTE (Entering state ActiveEarpieceRoute):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@AaI
+    12:27:58.655 - AUDIO_ROUTE_EARPIECE:TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@AaI
+    12:27:58.718 - START_CONNECTION (tel:********** via:com.android.phone):SBC.oSC(cap)@AaY
+    12:27:59.197 - CAPABILITY_CHANGE (Current: [[ sup_hld mut !v2a]], Removed [[]], Added [[ sup_hld mut !v2a]]):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC(cap/cast)@E-E-AaY
+    12:27:59.215 - SET_DIALING (successful outgoing call):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC(cap/cast)@E-E-AaY
+    12:28:03.067 - CAPABILITY_CHANGE (Current: [[ sup_hld mut]], Removed [[ !v2a]], Added [[]]):CSW.sCC(cap)@Ack
+    12:28:03.084 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@Acs
+    12:28:21.838 - REQUEST_DISCONNECT (internal):ICA.dC(cgad)@AdE
+    12:28:22.026 - SET_DISCONNECTED (disconnected set explicitly> DisconnectCause [ Code: (LOCAL) Label: () Description: () Reason: (LOCAL) Tone: (27)  TelephonyCause: 3/-1 ImsReasonInfo: ImsReasonInfo :: {501 : CODE_USER_TERMINATED, 0, }]):CSW.sDc(cap)@AdY
+    12:28:22.085 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@Adg
+    12:28:22.087 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@Adk
+    12:28:22.106 - DESTROYED:CSW.rC->CM.pR(cap)@Ado
+    Timings (average for this call, milliseconds):
+      disconnect: 188.00
+      outgoing_time_to_dialing: 497.00
+  CallTC@2 [14 ene 2026 12:31:25 p. m.](MO - outgoing)
+  	>>>Target PhoneAccount: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0} (TELCEL)
+  	>>>Conn mgr: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0}
+  	To address: tel:********** Presentation: Allowed
+    12:31:25.438 - CREATED (null;requestedAcct:none, selfMgd:false):TSI.hCI@Ae4
+    12:31:25.478 - CONNECTION_EVENT (org.codeaurora.telecom.event.EVENT_PHONE_ACCOUNT_CHANGED):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.sOCPA@Ae4
+    12:31:25.496 - SET_CONNECTING (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0}):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP@Ae4
+    12:31:25.644 - AUDIO_ROUTE (Leaving state QuiescentEarpieceRoute):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@Ae4
+    12:31:25.645 - AUDIO_ROUTE (Entering state ActiveEarpieceRoute):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@Ae4
+    12:31:25.645 - AUDIO_ROUTE_EARPIECE:TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@Ae4
+    12:31:25.797 - START_CONNECTION (tel:********** via:com.android.phone):SBC.oSC(cap)@Afc
+    12:31:26.097 - CAPABILITY_CHANGE (Current: [[ sup_hld mut !v2a]], Removed [[]], Added [[ sup_hld mut !v2a]]):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC(cap/cast)@E-E-Afc
+    12:31:26.110 - SET_DIALING (successful outgoing call):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC(cap/cast)@E-E-Afc
+    12:31:30.146 - CAPABILITY_CHANGE (Current: [[ sup_hld mut]], Removed [[ !v2a]], Added [[]]):CSW.sCC(cap)@AhA
+    12:31:30.157 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@AhI
+    12:31:46.694 - CAPABILITY_CHANGE (Current: [[ sup_hld mut VTlrx VTltx VTlbi]], Removed [[]], Added [[ VTlrx VTltx VTlbi]]):CSW.sCC(cap)@Ahk
+    12:31:46.706 - SET_ACTIVE (active set explicitly):CSW.sA(cap)@Ahw
+    12:31:46.773 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@Ah0
+    12:31:46.778 - CAPABILITY_CHANGE (Current: [[ hld sup_hld mut VTlrx VTltx VTlbi]], Removed [[]], Added [[ hld]]):CSW.sCC(cap)@Ah8
+    12:33:52.351 - SET_DISCONNECTED (disconnected set explicitly> DisconnectCause [ Code: (REMOTE) Label: () Description: () Reason: (NORMAL) Tone: (27)  TelephonyCause: 2/-1 ImsReasonInfo: ImsReasonInfo :: {510 : CODE_USER_TERMINATED_BY_REMOTE, 16, Q.850;cause=16}]):CSW.sDc(cap)@Aic
+    12:33:52.376 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@Aig
+    12:33:52.377 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@Aik
+    12:33:52.389 - CAPABILITY_CHANGE (Current: [[ sup_hld mut VTlrx VTltx VTlbi]], Removed [[ hld]], Added [[]]):CSW.sCC(cap)@Aio
+    12:33:52.401 - DESTROYED:CSW.rC->CM.pR(cap)@Ais
+    Timings (average for this call, milliseconds):
+      outgoing_time_to_dialing: 313.00
+  CallTC@3 [14 ene 2026 12:33:58 p. m.](MO - outgoing)
+  	>>>Target PhoneAccount: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0} (TELCEL)
+  	>>>Conn mgr: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0}
+  	To address: tel:********** Presentation: Allowed
+    12:33:58.016 - CREATED (null;requestedAcct:none, selfMgd:false):TSI.hCI@AkE
+    12:33:58.042 - CONNECTION_EVENT (org.codeaurora.telecom.event.EVENT_PHONE_ACCOUNT_CHANGED):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.sOCPA@AkE
+    12:33:58.052 - SET_CONNECTING (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0}):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP@AkE
+    12:33:58.202 - AUDIO_ROUTE (Leaving state QuiescentEarpieceRoute):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@AkE
+    12:33:58.204 - AUDIO_ROUTE (Entering state ActiveEarpieceRoute):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@AkE
+    12:33:58.205 - AUDIO_ROUTE_EARPIECE:TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@AkE
+    12:33:58.440 - START_CONNECTION (tel:********** via:com.android.phone):SBC.oSC(cap)@Ako
+    12:33:58.909 - CAPABILITY_CHANGE (Current: [[ sup_hld mut !v2a]], Removed [[]], Added [[ sup_hld mut !v2a]]):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC(cap/cast)@E-E-Ako
+    12:33:58.928 - SET_DIALING (successful outgoing call):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC(cap/cast)@E-E-Ako
+    12:34:02.064 - CAPABILITY_CHANGE (Current: [[ sup_hld mut]], Removed [[ !v2a]], Added [[]]):CSW.sCC(cap)@AmM
+    12:34:02.072 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@AmU
+    12:34:15.875 - CAPABILITY_CHANGE (Current: [[ sup_hld mut VTlrx VTltx VTlbi]], Removed [[]], Added [[ VTlrx VTltx VTlbi]]):CSW.sCC(cap)@Am0
+    12:34:15.884 - SET_ACTIVE (active set explicitly):CSW.sA(cap)@AnA
+    12:34:15.953 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@AnI
+    12:34:15.968 - CAPABILITY_CHANGE (Current: [[ hld sup_hld mut VTlrx VTltx VTlbi]], Removed [[]], Added [[ hld]]):CSW.sCC(cap)@AnQ
+    12:34:16.708 - AUDIO_ROUTE (Leaving state ActiveEarpieceRoute):ICA.sAR->CARSM.pM_USER_SWITCH_SPEAKER(cgad)@Ano
+    12:34:16.709 - AUDIO_ROUTE (Entering state ActiveSpeakerRoute):ICA.sAR->CARSM.pM_USER_SWITCH_SPEAKER(cgad)@Ano
+    12:34:16.709 - AUDIO_ROUTE_SPEAKER:ICA.sAR->CARSM.pM_USER_SWITCH_SPEAKER(cgad)@Ano
+    12:34:18.511 - AUDIO_ROUTE (Leaving state ActiveSpeakerRoute):ICA.sAR->CARSM.pM_USER_SWITCH_BASELINE_ROUTE->CARSM.pM_USER_SWITCH_EARPIECE(cgad)@Anw
+    12:34:18.512 - AUDIO_ROUTE (Entering state ActiveEarpieceRoute):ICA.sAR->CARSM.pM_USER_SWITCH_BASELINE_ROUTE->CARSM.pM_USER_SWITCH_EARPIECE(cgad)@Anw
+    12:34:18.512 - AUDIO_ROUTE_EARPIECE:ICA.sAR->CARSM.pM_USER_SWITCH_BASELINE_ROUTE->CARSM.pM_USER_SWITCH_EARPIECE(cgad)@Anw
+    12:34:25.511 - AUDIO_ROUTE (Leaving state ActiveEarpieceRoute):ICA.sAR->CARSM.pM_USER_SWITCH_SPEAKER(cgad)@An4
+    12:34:25.512 - AUDIO_ROUTE (Entering state ActiveSpeakerRoute):ICA.sAR->CARSM.pM_USER_SWITCH_SPEAKER(cgad)@An4
+    12:34:25.512 - AUDIO_ROUTE_SPEAKER:ICA.sAR->CARSM.pM_USER_SWITCH_SPEAKER(cgad)@An4
+    12:34:28.694 - REQUEST_DISCONNECT (internal):TSI.eC(a)@AoA
+    12:34:28.874 - SET_DISCONNECTED (disconnected set explicitly> DisconnectCause [ Code: (LOCAL) Label: () Description: () Reason: (LOCAL) Tone: (27)  TelephonyCause: 3/-1 ImsReasonInfo: ImsReasonInfo :: {501 : CODE_USER_TERMINATED, 0, }]):CSW.sDc(cap)@AoU
+    12:34:28.937 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@Aoc
+    12:34:28.938 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@Aok
+    12:34:28.940 - CAPABILITY_CHANGE (Current: [[ sup_hld mut VTlrx VTltx VTlbi]], Removed [[ hld]], Added [[]]):CSW.sCC(cap)@Aoo
+    12:34:28.944 - DESTROYED:CSW.rC->CM.pR(cap)@Aos
+    Timings (average for this call, milliseconds):
+      disconnect: 180.00
+      outgoing_time_to_dialing: 488.00
+  CallTC@4 [14 ene 2026 12:34:37 p. m.](MO - outgoing)
+  	>>>Target PhoneAccount: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0} (TELCEL)
+  	>>>Conn mgr: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0}
+  	To address: tel:********** Presentation: Allowed
+    12:34:37.705 - CREATED (null;requestedAcct:none, selfMgd:false):TSI.hCI@Ap8
+    12:34:37.752 - CONNECTION_EVENT (org.codeaurora.telecom.event.EVENT_PHONE_ACCOUNT_CHANGED):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.sOCPA@Ap8
+    12:34:37.770 - SET_CONNECTING (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 3, UserHandle{0}):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP@Ap8
+    12:34:37.886 - AUDIO_ROUTE (Leaving state QuiescentEarpieceRoute):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@Ap8
+    12:34:37.886 - AUDIO_ROUTE (Entering state ActiveEarpieceRoute):TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@Ap8
+    12:34:37.886 - AUDIO_ROUTE_EARPIECE:TSI.hCI->CILH.sL->CILH.oQC->CM.mCOCSS->CM.cOCSS->CM.dSPA->CM.pASP->CAMSM.pM_2001->CARSM.pM_SWITCH_FOCUS@Ap8
+    12:34:37.968 - START_CONNECTION (tel:********** via:com.android.phone):SBC.oSC(cap)@Aqg
+    12:34:38.320 - CAPABILITY_CHANGE (Current: [[ sup_hld mut !v2a]], Removed [[]], Added [[ sup_hld mut !v2a]]):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC(cap/cast)@E-E-Aqg
+    12:34:38.326 - SET_DIALING (successful outgoing call):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC(cap/cast)@E-E-Aqg
+    12:34:41.589 - CAPABILITY_CHANGE (Current: [[ sup_hld mut]], Removed [[ !v2a]], Added [[]]):CSW.sCC(cap)@AsI
+    12:34:41.596 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@AsQ
+    12:34:46.064 - CAPABILITY_CHANGE (Current: [[ sup_hld mut VTlrx VTltx VTlbi]], Removed [[]], Added [[ VTlrx VTltx VTlbi]]):CSW.sCC(cap)@Aso
+    12:34:46.076 - SET_ACTIVE (active set explicitly):CSW.sA(cap)@As0
+    12:34:46.133 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@As4
+    12:34:46.138 - CAPABILITY_CHANGE (Current: [[ hld sup_hld mut VTlrx VTltx VTlbi]], Removed [[]], Added [[ hld]]):CSW.sCC(cap)@AtA
+    12:35:08.299 - REQUEST_DISCONNECT (internal):TSI.eC(a)@Atc
+    12:35:08.442 - SET_DISCONNECTED (disconnected set explicitly> DisconnectCause [ Code: (LOCAL) Label: () Description: () Reason: (LOCAL) Tone: (27)  TelephonyCause: 3/-1 ImsReasonInfo: ImsReasonInfo :: {501 : CODE_USER_TERMINATED, 0, }]):CSW.sDc(cap)@Atw
+    12:35:08.509 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@At0
+    12:35:08.512 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@AuA
+    12:35:08.514 - CAPABILITY_CHANGE (Current: [[ sup_hld mut VTlrx VTltx VTlbi]], Removed [[ hld]], Added [[]]):CSW.sCC(cap)@AuE
+    12:35:08.519 - DESTROYED:CSW.rC->CM.pR(cap)@AuI
+    Timings (average for this call, milliseconds):
+      disconnect: 143.00
+      outgoing_time_to_dialing: 358.00

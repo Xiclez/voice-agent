@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agente ULAL - Chat de Voz</title>
+    <style>
+        /* --- ESTILOS TIPO CHAT MODERNO --- */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #e5ddd5; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+        }
+
+        header {
+            background-color: #075e54;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        #chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 10px;
+            position: relative;
+            font-size: 15px;
+            line-height: 1.4;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: #dcf8c6;
+            border-top-right-radius: 0;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background-color: white;
+            border-top-left-radius: 0;
+        }
+
+        .sender-name {
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+            display: block;
+            color: #555;
+        }
+
+        /* Barra de controles inferior */
+        #controls {
+            background-color: #f0f0f0;
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #ccc;
+        }
+
+        #btnStart {
+            background-color: #128C7E;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+
+        #btnStart:active { transform: scale(0.95); }
+        #btnStart.recording { background-color: #d32f2f; animation: pulse 2s infinite; }
+
+        /* Indicador de "Escribiendo/Hablando" */
+        #status-indicator {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 5px;
+            height: 15px;
+        }
+
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(211, 47, 47, 0); } 100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>🎓 Asistente ULAL</h2>
+    </header>
+
+    <div id="chat-container">
+        <div class="message ai">
+            <span class="sender-name">Angel (IA)</span>
+            Hola, soy Angel. Presiona el botón para hablar conmigo.
+        </div>
+    </div>
+
+    <div id="controls">
+        <button id="btnStart">🎙️ HABLAR</button>
+        <div id="status-indicator"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    
+    <script>
+        const socket = io();
+        const chatContainer = document.getElementById('chat-container');
+        const btnStart = document.getElementById('btnStart');
+        const statusInd = document.getElementById('status-indicator');
+
+        // --- VARIABLES DE LA COLA DE AUDIO ---
+        const audioQueue = []; // Aquí guardaremos los audios pendientes
+        let isPlaying = false; // Bandera para saber si ya hay algo sonando
+
+        // --- VARIABLES DE GRABACIÓN ---
+        let isRecording = false;
+        let audioContext, processor, input;
+
+        // ==========================================
+        //  LÓGICA DE COLA (QUEUE) - LO IMPORTANTE
+        // ==========================================
+        function processQueue() {
+            // Si ya estamos reproduciendo algo o la cola está vacía, no hacemos nada
+            if (isPlaying || audioQueue.length === 0) return;
+
+            isPlaying = true; // Bloqueamos
+            const nextAudio = audioQueue.shift(); // Sacamos el primer audio de la fila
+            
+            statusInd.innerText = "🔊 Reproduciendo respuesta...";
+            
+            // Reproducir
+            nextAudio.play()
+                .then(() => {
+                    // Todo bien
+                })
+                .catch(e => {
+                    console.error("Error autoplay:", e);
+                    // Si falla, saltamos al siguiente inmediatamente
+                    isPlaying = false;
+                    processQueue();
+                });
+
+            // Cuando termine este audio, llamamos a la función de nuevo (Recursividad)
+            nextAudio.onended = () => {
+                isPlaying = false;
+                statusInd.innerText = "";
+                processQueue(); // ¡Siguiente!
+            };
+            
+            nextAudio.onerror = () => {
+                isPlaying = false;
+                processQueue(); // Si falla, intenta el siguiente
+            };
+        }
+
+        // ==========================================
+        //  UI Y MENSAJES
+        // ==========================================
+        function addMessage(text, type) {
+            const div = document.createElement('div');
+            div.className = `message ${type}`;
+            
+            const sender = type === 'user' ? 'Tú' : 'Angel (IA)';
+            
+            div.innerHTML = `
+                <span class="sender-name">${sender}</span>
+                ${text}
+            `;
+            
+            chatContainer.appendChild(div);
+            chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll al fondo
+            return div;
+        }
+
+        // ==========================================
+        //  EVENTOS DEL SOCKET
+        // ==========================================
+        
+        socket.on('user_transcript', (text) => {
+            addMessage(text, 'user');
+        });
+
+        socket.on('ai_text', (text) => {
+            // Solo mostramos el texto, el audio se maneja aparte
+            addMessage(text, 'ai');
+        });
+
+        socket.on('audio_response', (b64) => {
+            // 1. Decodificar audio
+            const binaryString = window.atob(b64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            const blob = new Blob([bytes], { type: 'audio/wav' });
+            const url = URL.createObjectURL(blob);
+            
+            // 2. Crear objeto Audio (pero NO darle play todavía)
+            const audioObj = new Audio(url);
+            
+            // 3. Meterlo a la cola
+            audioQueue.push(audioObj);
+            
+            // 4. Intentar procesar la cola
+            processQueue();
+        });
+
+        // ==========================================
+        //  LÓGICA DE GRABACIÓN (IGUAL QUE ANTES)
+        // ==========================================
+        // ... (resto del código igual) ...
+
+        btnStart.onclick = async () => {
+            if (!isRecording) {
+                // Desbloquear audio
+                const unlock = new (window.AudioContext || window.webkitAudioContext)();
+                await unlock.resume();
+
+                // >>> NUEVO: Avisar al servidor para que salude <<<
+                socket.emit('start_conversation');
+
+                startRecording();
+                btnStart.innerText = "🛑 DETENER";
+                btnStart.classList.add("recording");
+                statusInd.innerText = "Escuchando...";
+            } else {
+                location.reload(); 
+            }
+        };
+
+        // ... (resto del código igual) ...
+
+        async function startRecording() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                input = audioContext.createMediaStreamSource(stream);
+                processor = audioContext.createScriptProcessor(4096, 1, 1);
+                
+                input.connect(processor);
+                processor.connect(audioContext.destination);
+
+                processor.onaudioprocess = (e) => {
+                    const inputData = e.inputBuffer.getChannelData(0);
+                    const buffer = new ArrayBuffer(inputData.length * 2);
+                    const view = new DataView(buffer);
+                    for (let i = 0; i < inputData.length; i++) {
+                        let s = Math.max(-1, Math.min(1, inputData[i]));
+                        view.setInt16(i * 2, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+                    }
+                    socket.emit('audio_stream', buffer);
+                };
+            } catch (err) {
+                alert("Error microfono: " + err.message);
+            }
+        }
+    </script>
+</body>
+</html>
